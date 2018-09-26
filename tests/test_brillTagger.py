@@ -1,4 +1,4 @@
-from copy import copy, deepcopy
+from copy import copy
 from unittest import TestCase
 
 from brill_tagger.rules import *
@@ -102,3 +102,12 @@ class TestBrillTagger(TestCase):
         }
 
         self.assertEqual(tagger.probabilities, expected_probabilities)
+
+    def test_initialization(self):
+        corpus = [Token('Brainpower', 'NNP'), Token(',', ','), Token('not', 'RB'), Token('physical', 'JJ'),
+                  Token('plant', 'NN'), Token('Brainpower', 'VB'), Token('Brainpower', 'VB'),
+                  Token('Brainpower', 'NN')]
+        tagger = BrillTagger(corpus)
+        tagger.train()
+        self.assertEqual(str(tagger.corpus),
+                         '[(Brainpower VB), (, ,), (not RB), (physical JJ), (plant NN), (Brainpower VB), (Brainpower VB), (Brainpower VB)]')

@@ -1,6 +1,10 @@
+from copy import deepcopy
+
+
 class BrillTagger:
     def __init__(self, corpus):
-        self.corpus = corpus
+        self.corpus = deepcopy(corpus)
+        self.original_corpus = deepcopy(corpus)
         self.frequencies = self.calculate_word_pos_frequency()
         self.probabilities = self.calculate_word_pos_probabilities()
 
@@ -47,6 +51,22 @@ class BrillTagger:
 
         return probabilities
 
+    def initialize_with_most_likely_tags(self):
+        """
+        Find the most likely part of speech for each word and change it's POS to that tag
+        """
+        for token in self.corpus:
+            max_probability = 0
+            most_probable_pos = ''
+
+            for pos in self.probabilities[token.word]:
+
+                if self.probabilities[token.word][pos] > max_probability:
+                    max_probability = self.probabilities[token.word][pos]
+                    most_probable_pos = pos
+
+            token.pos = most_probable_pos
+
     def apply_transform(self, rule):
         """
         Apply a transformation to entire corpus
@@ -59,3 +79,6 @@ class BrillTagger:
             # print(self.corpus[index - 1].pos)
             if token.pos == rule.old_tag and self.corpus[index].pos == rule.condition:
                 token.pos = rule.new_tag
+
+    def train(self):
+        self.initialize_with_most_likely_tags()
