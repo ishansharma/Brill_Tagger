@@ -18,11 +18,14 @@ class Rules:
 
         return output_str
 
-    def enqueue(self, rule):
-        self.rules.append(rule)
+    def __repr__(self):
+        return self.__str__()
 
     def __len__(self):
         return len(self.rules)
+
+    def enqueue(self, rule):
+        self.rules.append(rule)
 
 
 # Class to hold a single rule

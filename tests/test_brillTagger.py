@@ -1,8 +1,9 @@
+from copy import copy, deepcopy
 from unittest import TestCase
-from copy import copy
-from input_reader.reader import Token
-from brill_tagger.tagger import *
+
 from brill_tagger.rules import *
+from brill_tagger.tagger import *
+from input_reader.reader import Token
 
 
 class TestBrillTagger(TestCase):
@@ -28,3 +29,76 @@ class TestBrillTagger(TestCase):
         self.assertEqual(tagger.corpus[1].pos, ',')
         self.assertEqual(tagger.corpus[3].pos, 'JJ')
         self.assertEqual(tagger.corpus[4].pos, 'NN')
+
+    def test_word_freq_calculations(self):
+        corpus = deepcopy(self.dummy_corpus)
+        tagger = BrillTagger(corpus)
+        expected_frequencies = {
+            'Brainpower': {
+                'NNP': 1,
+                'total': 1
+            },
+            ',': {
+                ',': 1,
+                'total': 1
+            },
+            'not': {
+                'RB': 1,
+                'total': 1
+            },
+            'physical': {
+                'JJ': 1,
+                'total': 1
+            },
+            'plant': {
+                'NN': 1,
+                'total': 1
+            }
+        }
+
+        self.assertEqual(tagger.frequencies, expected_frequencies)
+
+        corpus2 = [Token('Brainpower', 'NNP'), Token(',', ','), Token('not', 'RB'), Token('physical', 'JJ'),
+                   Token('plant', 'NN'), Token('Brainpower', 'VB'), Token('Brainpower', ',')]
+        tagger = BrillTagger(corpus2)
+        expected_frequencies['Brainpower'] = {
+            'NNP': 1,
+            'VB': 1,
+            ',': 1,
+            'total': 3
+        }
+        self.assertEqual(tagger.frequencies, expected_frequencies)
+
+    def test_word_prob_calculations(self):
+        corpus = deepcopy(self.dummy_corpus)
+        tagger = BrillTagger(corpus)
+        expected_probabilities = {
+            'Brainpower': {
+                'NNP': 1,
+            },
+            ',': {
+                ',': 1,
+            },
+            'not': {
+                'RB': 1,
+            },
+            'physical': {
+                'JJ': 1,
+            },
+            'plant': {
+                'NN': 1,
+            }
+        }
+        self.assertEqual(tagger.probabilities, expected_probabilities)
+
+        corpus2 = [Token('Brainpower', 'NNP'), Token(',', ','), Token('not', 'RB'), Token('physical', 'JJ'),
+                   Token('plant', 'NN'), Token('Brainpower', 'VB'), Token('Brainpower', ','), Token('Brainpower', 'NN')]
+        tagger = BrillTagger(corpus2)
+        expected_probabilities['Brainpower'] = {
+            'NNP': 0.25,
+            'VB': 0.25,
+            ',': 0.25,
+            'NN': 0.25
+        }
+
+        self.assertEqual(tagger.probabilities, expected_probabilities)
