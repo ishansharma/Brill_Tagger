@@ -2,7 +2,6 @@ import argparse
 
 import input_reader.reader as r
 from brill_tagger.tagger import *
-from brill_tagger.rules import Rule
 
 parser = argparse.ArgumentParser(description="Reads a tagged input training set and creates a set of rules to tag any"
                                              "new sentences")
@@ -18,5 +17,3 @@ if args.input != '':
     input_file = args.input
 
 tagger = BrillTagger(r.read_file(input_file))
-tagger.apply_transform(Rule('VBZ', 'VB', 'TO'))
-# print(r.read_file(input_file))

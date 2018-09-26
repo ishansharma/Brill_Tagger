@@ -13,6 +13,9 @@ class Token:
     def __str__(self):
         return "({} {})".format(self.word, self.pos)
 
+    def __repr__(self):
+        return self.__str__()
+
 
 def read_file(path):
     """

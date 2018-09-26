@@ -49,7 +49,10 @@ class Rule:
         -------
         str
         """
-        return self.old_tag + " " + self.new_tag + " " +  self.condition
+        return self.old_tag + " " + self.new_tag + " " + self.condition
+
+    def __rpr__(self):
+        return self.__str__()
 
     def __eq__(self, other):
         """
