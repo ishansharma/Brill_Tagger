@@ -36,9 +36,9 @@ class Rule:
 
         Parameters
         ----------
-        old_tag str
-        new_tag str
-        condition str
+        old_tag : str
+        new_tag : str
+        condition : str
         """
         self.old_tag = old_tag
         self.new_tag = new_tag
@@ -62,10 +62,10 @@ class Rule:
         Comparison needs to handle only the 3 fields
         Parameters
         ----------
-        other Rule
+        other : Rule
 
         Returns
         -------
-
+        bool
         """
         return self.old_tag == other.old_tag and self.new_tag == other.new_tag and self.condition == other.condition
