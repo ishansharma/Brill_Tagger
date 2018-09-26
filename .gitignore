@@ -177,3 +177,4 @@ fabric.properties
 # Editor-based Rest Client
 .idea/httpRequests
 
+/HW2_S18_NLP6320_POSTaggedTrainingSet-Unix.txt
