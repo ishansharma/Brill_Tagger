@@ -5,6 +5,15 @@ import os.path
 import constants
 
 
+class Token:
+    def __init__(self, word, pos):
+        self.word = word
+        self.pos = pos
+
+    def __str__(self):
+        return "({} {})".format(self.word, self.pos)
+
+
 def read_file(path):
     """
     Given a path, read a file where each line is a sentence in the format <word>_<POS>
@@ -30,10 +39,8 @@ def read_file(path):
         for line in input_file:
             # break the line into words first
             words = line.strip().split(" ")
-            tag_tuples = []
             for token in words:
                 split_token = token.split(constants.DELIMITER)
-                tag_tuples.append((split_token[0], split_token[1]))
-            output.append(tag_tuples)
+                output.append(Token(split_token[0], split_token[1]))
 
     return output
