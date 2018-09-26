@@ -80,5 +80,18 @@ class BrillTagger:
             if token.pos == rule.old_tag and self.corpus[index].pos == rule.condition:
                 token.pos = rule.new_tag
 
+    def calculate_errors(self):
+        """
+        Calculate the number of errors made in a modified corpus
+        Returns
+        -------
+        int
+        """
+        errors = 0
+        for i in range(len(self.corpus)):
+            if self.corpus[i] != self.original_corpus[i]:
+                errors += 1
+        return errors
+
     def train(self):
         self.initialize_with_most_likely_tags()

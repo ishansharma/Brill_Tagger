@@ -110,4 +110,19 @@ class TestBrillTagger(TestCase):
         tagger = BrillTagger(corpus)
         tagger.train()
         self.assertEqual(str(tagger.corpus),
-                         '[(Brainpower VB), (, ,), (not RB), (physical JJ), (plant NN), (Brainpower VB), (Brainpower VB), (Brainpower VB)]')
+                         '[(Brainpower VB), (, ,), (not RB), (physical JJ), (plant NN), (Brainpower VB), (Brainpower '
+                         'VB), (Brainpower VB)]')
+
+    def test_error_calculation(self):
+        corpus = [Token('Brainpower', 'NNP'), Token(',', ','), Token('not', 'RB'), Token('physical', 'JJ'),
+                  Token('plant', 'NN'), Token('Brainpower', 'VB'), Token('Brainpower', 'VB'),
+                  Token('Brainpower', 'NN')]
+        tagger = BrillTagger(corpus)
+        tagger.train()
+        self.assertEqual(tagger.calculate_errors(), 2)
+
+        corpus = [Token('Brainpower', 'NNP'), Token(',', ','), Token('not', 'RB'), Token('physical', 'JJ'),
+                  Token('plant', 'NN')]
+        tagger = BrillTagger(corpus)
+        tagger.train()
+        self.assertEqual(tagger.calculate_errors(), 0)

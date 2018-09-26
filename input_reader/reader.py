@@ -2,6 +2,7 @@
 Read an input file and convert it to required format
 """
 import os.path
+
 import constants
 
 
@@ -15,6 +16,19 @@ class Token:
 
     def __repr__(self):
         return self.__str__()
+
+    def __eq__(self, other):
+        """
+        Compare two tokens
+        Parameters
+        ----------
+        other: Token
+
+        Returns
+        -------
+        bool
+        """
+        return self.word == other.word and self.pos == other.pos
 
 
 def read_file(path):
