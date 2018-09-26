@@ -1,4 +1,4 @@
-# Class to hold all the rules
+# Class to hold multiple rules
 class Rules:
     def __init__(self):
         self.rules = []
